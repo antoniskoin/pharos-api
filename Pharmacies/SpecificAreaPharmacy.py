@@ -2,14 +2,14 @@ import datetime
 from requests import Session
 from bs4 import BeautifulSoup
 from flask_restful import Resource
+from helpers.common import get_user_agent
 
 
 class SpecificPharmaciesToday(Resource):
     def get(self):
         specific_area_info = {}
         session = Session()
-        user_agent = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:94.0) Gecko/20100101 Firefox/94.0"
-        req = session.get("https://fsa-efimeries.gr/", headers={"user-agent": user_agent})
+        req = session.get("https://fsa-efimeries.gr/", headers={"user-agent": get_user_agent()})
         verification_cookie = req.cookies.get(".AspNetCore.Antiforgery._7w_lBqvcBI")
         date_today = datetime.datetime.now()
         formatted_date = date_today.strftime("%Y-%m-%d")
@@ -20,7 +20,7 @@ class SpecificPharmaciesToday(Resource):
             "__RequestVerificationToken": verification_cookie,
             "IsOpen": "false"
         }
-        req = session.post("https://fsa-efimeries.gr/", data=data, headers={"user-agent": user_agent})
+        req = session.post("https://fsa-efimeries.gr/", data=data, headers={"user-agent": get_user_agent()})
         soup = BeautifulSoup(req.content, "html.parser")
         table = soup.find("table", {"id": "table"})
         tbody = table.find("tbody")

@@ -1,13 +1,14 @@
 import requests
 from bs4 import BeautifulSoup
 from flask_restful import Resource
+from helpers.common import get_user_agent
 
 
 class PharmacyInformation(Resource):
     def get(self):
         pharmacy_information = {}
 
-        req = requests.get("https://fsa-efimeries.gr/")
+        req = requests.get("https://fsa-efimeries.gr/", headers={"user-agent": get_user_agent()})
         soup = BeautifulSoup(req.content, "html.parser")
         table = soup.find("table", {"id": "table"})
         tbody = table.find("tbody")

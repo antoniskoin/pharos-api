@@ -3,6 +3,7 @@ import datetime
 from bs4 import BeautifulSoup
 from flask_restful import Resource
 from flask import request
+from helpers.common import get_user_agent
 
 
 class HospitalInformationToday(Resource):
@@ -12,7 +13,7 @@ class HospitalInformationToday(Resource):
         date_today = datetime.datetime.now()
         formatted_date = date_today.strftime("%w/%m/%Y")
         url = f"https://www.xo.gr/efimerevonta-nosokomeia/athina/?date={formatted_date}&clinic={clinic_requested}"
-        req = requests.get(url)
+        req = requests.get(url, headers={"user-agent": get_user_agent()})
         soup = BeautifulSoup(req.content, "html.parser")
         search_results = soup.find("div", {"id": "SearchResults"})
         items = search_results.find_all("div", {"class": "basicInfo"})
