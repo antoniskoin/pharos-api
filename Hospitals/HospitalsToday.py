@@ -1,23 +1,17 @@
 import requests
+import datetime
 from bs4 import BeautifulSoup
 from flask_restful import Resource
+from flask import request
 
 
 class HospitalInformationToday(Resource):
     def get(self):
-        keys = ["Όλες", "Αγγειοχειρουργική", "Αιματολογική", "Αιμοδοσία", "Γαστρεντερολογική", "Γενική Εφημερία",
-                "Γναθοχειρουργική", "Γυναικολογική", "Δερματολογική", "Διαβητολογικό Κέντρο", "Ενδοκρινολογική",
-                "Θωρακοχειρουργική", "Καρδιολογική", "Καρδιολογική (αιμοδυναμικό εργαστήριο)", "Καρδιοχειρουργική",
-                "Κλινική Χεριού", "Μαιευτική", "ΜΕΘ Νεογνών", "Νεογνολογικό", "Νευρολογική", "Νευροχειρουργική",
-                "Νεφρολογική", "Ογκολογική", "Οδοντιατρική", "Ορθοπεδική", "Ουρολογική", "Οφθαλμολογική", "Παθολογική",
-                "Παιδιατρικό", "Παιδοαιματολογική", "Παιδονεφρολογική", "Παιδοορθοπαιδική",
-                "Παιδοορθοπεδική-Παιδοχειρουργική", "Παιδοχειρουργική", "Παιδοψυχιατρική", "Παιδοψυχιατρικό",
-                "Παιδο-ΩΡΛ", "Πλαστική Χειρουργική", "Πνευμονολογική", "Ρευματολογική", "Χειρουργική", "Ψυχιατρική",
-                "ΩΡΛ"]
-
+        clinic_requested = request.args.get("clinic")
         hospital_info = {}
-
-        url = "https://www.xo.gr/efimerevonta-nosokomeia/athina/?date=03/11/2021"
+        date_today = datetime.datetime.now()
+        formatted_date = date_today.strftime("%w/%m/%Y")
+        url = f"https://www.xo.gr/efimerevonta-nosokomeia/athina/?date={formatted_date}&clinic={clinic_requested}"
         req = requests.get(url)
         soup = BeautifulSoup(req.content, "html.parser")
         search_results = soup.find("div", {"id": "SearchResults"})
