@@ -14,6 +14,10 @@ class HospitalInformationToday(Resource):
         formatted_date = date_today.strftime("%w/%m/%Y")
         url = f"https://www.xo.gr/efimerevonta-nosokomeia/athina/?date={formatted_date}&clinic={clinic_requested}"
         req = requests.get(url, headers={"user-agent": get_user_agent()})
+
+        if req.status_code != 200:
+            return f"Request failed with status code {req.status_code}"
+
         soup = BeautifulSoup(req.content, "html.parser")
         search_results = soup.find("div", {"id": "SearchResults"})
         items = search_results.find_all("div", {"class": "basicInfo"})

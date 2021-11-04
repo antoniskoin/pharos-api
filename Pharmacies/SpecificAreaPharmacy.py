@@ -10,6 +10,10 @@ class SpecificPharmaciesToday(Resource):
         specific_area_info = {}
         session = Session()
         req = session.get("https://fsa-efimeries.gr/", headers={"user-agent": get_user_agent()})
+
+        if req.status_code != 200:
+            return f"Request failed with status code {req.status_code}"
+
         verification_cookie = req.cookies.get(".AspNetCore.Antiforgery._7w_lBqvcBI")
         date_today = datetime.datetime.now()
         formatted_date = date_today.strftime("%Y-%m-%d")
@@ -21,6 +25,10 @@ class SpecificPharmaciesToday(Resource):
             "IsOpen": "false"
         }
         req = session.post("https://fsa-efimeries.gr/", data=data, headers={"user-agent": get_user_agent()})
+
+        if req.status_code != 200:
+            return f"Request failed with status code {req.status_code}"
+
         soup = BeautifulSoup(req.content, "html.parser")
         table = soup.find("table", {"id": "table"})
         tbody = table.find("tbody")
@@ -28,7 +36,6 @@ class SpecificPharmaciesToday(Resource):
         for row in rows:
             try:
                 columns = row.find_all("td")
-                print(columns)
                 area = columns[2].text.strip()
                 pharmacy = columns[3].text.strip()
                 address = columns[4].text.strip()

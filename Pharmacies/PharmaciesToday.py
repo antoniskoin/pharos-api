@@ -9,6 +9,10 @@ class PharmacyInformation(Resource):
         pharmacy_information = {}
 
         req = requests.get("https://fsa-efimeries.gr/", headers={"user-agent": get_user_agent()})
+
+        if req.status_code != 200:
+            return f"Request failed with status code {req.status_code}"
+
         soup = BeautifulSoup(req.content, "html.parser")
         table = soup.find("table", {"id": "table"})
         tbody = table.find("tbody")
