@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 from flask_restful import Resource
-from flask import jsonify
 
 
 class PharmacyInformation(Resource):
@@ -38,4 +37,4 @@ class PharmacyInformation(Resource):
                 "status": status
             }
 
-        return jsonify(pharmacy_information)
+        return pharmacy_information
