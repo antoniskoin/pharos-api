@@ -3,17 +3,18 @@ import datetime
 from bs4 import BeautifulSoup
 from flask_restful import Resource
 from flask import request
-from helpers.common import get_user_agent
+from helpers.common import get_headers
 
 
 class HospitalInformationToday(Resource):
     def get(self):
         clinic_requested = request.args.get("clinic")
+        area_requested = request.args.get("area")
         hospital_info = {}
         date_today = datetime.datetime.now()
         formatted_date = date_today.strftime("%w/%m/%Y")
-        url = f"https://www.xo.gr/efimerevonta-nosokomeia/athina/?date={formatted_date}&clinic={clinic_requested}"
-        req = requests.get(url, headers={"user-agent": get_user_agent()})
+        url = f"https://www.xo.gr/efimerevonta-nosokomeia/{area_requested}/?date={formatted_date}&clinic={clinic_requested}"
+        req = requests.get(url, headers=get_headers())
 
         if req.status_code != 200:
             return f"Request failed with status code {req.status_code}"

@@ -1,14 +1,14 @@
 import requests
 from bs4 import BeautifulSoup
 from flask_restful import Resource
-from helpers.common import get_user_agent
+from helpers.common import get_headers
 
 
 class PharmacyInformation(Resource):
     def get(self):
         pharmacy_information = {}
 
-        req = requests.get("https://fsa-efimeries.gr/", headers={"user-agent": get_user_agent()})
+        req = requests.get("https://fsa-efimeries.gr/", headers=get_headers())
 
         if req.status_code != 200:
             return f"Request failed with status code {req.status_code}"

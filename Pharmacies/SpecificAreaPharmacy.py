@@ -2,14 +2,14 @@ import datetime
 from requests import Session
 from bs4 import BeautifulSoup
 from flask_restful import Resource
-from helpers.common import get_user_agent
+from helpers.common import get_headers
 
 
 class SpecificPharmaciesToday(Resource):
     def get(self):
         specific_area_info = {}
         session = Session()
-        req = session.get("https://fsa-efimeries.gr/", headers={"user-agent": get_user_agent()})
+        req = session.get("https://fsa-efimeries.gr/", headers=get_headers())
 
         if req.status_code != 200:
             return f"Request failed with status code {req.status_code}"
@@ -24,7 +24,7 @@ class SpecificPharmaciesToday(Resource):
             "__RequestVerificationToken": verification_cookie,
             "IsOpen": "false"
         }
-        req = session.post("https://fsa-efimeries.gr/", data=data, headers={"user-agent": get_user_agent()})
+        req = session.post("https://fsa-efimeries.gr/", data=data, headers=get_headers())
 
         if req.status_code != 200:
             return f"Request failed with status code {req.status_code}"
