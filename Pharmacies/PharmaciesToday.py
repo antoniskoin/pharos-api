@@ -17,6 +17,7 @@ class PharmacyInformation(Resource):
         table = soup.find("table", {"id": "table"})
         tbody = table.find("tbody")
         rows = tbody.find_all("tr")
+        pharmacy_count = 0
         for row in rows:
             try:
                 columns = row.find_all("td")
@@ -34,12 +35,15 @@ class PharmacyInformation(Resource):
             else:
                 status = "CLOSED"
 
-            pharmacy_information[pharmacy] = {
+            pharmacy_information[pharmacy_count] = {
+                "pharmacy": pharmacy,
                 "area": area,
                 "address": address,
                 "phone": phone,
                 "timetable": timetable,
                 "status": status
             }
+
+            pharmacy_count += 1
 
         return pharmacy_information

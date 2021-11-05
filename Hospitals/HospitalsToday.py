@@ -22,6 +22,7 @@ class HospitalInformationToday(Resource):
         soup = BeautifulSoup(req.content, "html.parser")
         search_results = soup.find("div", {"id": "SearchResults"})
         items = search_results.find_all("div", {"class": "basicInfo"})
+        hospital_count = 0
         for item in items:
             hospital = item.find("a", {"class": "et-v2"}).text.replace("ΤΗΛΕΦΩΝΙΚΟ ΚΕΝΤΡΟ - ", "")
             sub_category = item.find("div", {"class": "listingGreyArea"})
@@ -38,7 +39,8 @@ class HospitalInformationToday(Resource):
             locality = address_info.find("span", {"itemprop": "addressLocality"}).text
             region = address_info.find("span", {"itemprop": "addressRegion"}).text
 
-            hospital_info[hospital] = {
+            hospital_info[hospital_count] = {
+                "hospital": hospital,
                 "clinics": clinics,
                 "address": address,
                 "district": district,
@@ -46,5 +48,7 @@ class HospitalInformationToday(Resource):
                 "locality": locality,
                 "region": region
             }
+
+            hospital_count += 1
 
         return hospital_info

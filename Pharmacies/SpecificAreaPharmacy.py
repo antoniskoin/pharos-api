@@ -33,6 +33,7 @@ class SpecificPharmaciesToday(Resource):
         table = soup.find("table", {"id": "table"})
         tbody = table.find("tbody")
         rows = tbody.find_all("tr")
+        pharmacy_count = 0
         for row in rows:
             try:
                 columns = row.find_all("td")
@@ -50,12 +51,15 @@ class SpecificPharmaciesToday(Resource):
             else:
                 status = "CLOSED"
 
-            specific_area_info[pharmacy] = {
+            specific_area_info[pharmacy_count] = {
+                "pharmacy": pharmacy,
                 "area": area,
                 "address": address,
                 "phone": phone,
                 "timetable": timetable,
                 "status": status
             }
+
+            pharmacy_count += 1
 
         return specific_area_info
