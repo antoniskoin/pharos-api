@@ -9,5 +9,6 @@
 ```text
 /pharmacies/today
 /pharmacies/specific_today
+/pharmacies/get_area_ids
 /hospitals/today
 ```
