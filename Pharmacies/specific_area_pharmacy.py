@@ -1,4 +1,6 @@
 import datetime
+
+from flask import request
 from requests import Session
 from bs4 import BeautifulSoup
 from flask_restful import Resource
@@ -7,6 +9,11 @@ from helpers.common import get_headers
 
 class SpecificPharmaciesToday(Resource):
     def get(self):
+        area = request.args.get("area")
+
+        if not area.isdigit():
+            return {"error": "Area ID must be a digit"}
+
         specific_area_info = {}
         session = Session()
         req = session.get("https://fsa-efimeries.gr/", headers=get_headers())
@@ -19,7 +26,7 @@ class SpecificPharmaciesToday(Resource):
         formatted_date = date_today.strftime("%Y-%m-%d")
         data = {
             "Date": formatted_date,
-            "PerioxiId": 1,
+            "PerioxiId": int(area),
             "isOpen": "false",
             "__RequestVerificationToken": verification_cookie,
             "IsOpen": "false"
