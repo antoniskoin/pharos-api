@@ -19,7 +19,8 @@ class Locations(Resource):
                 area = area["href"]
                 area = area.split("/")
                 area = area[2]
-                area[i] = area
+                areas[i] = area
+                i += 1
 
             return areas
         else:
