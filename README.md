@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo.png" width="110">
+  <img src="static/logo.png" width="110">
 </p>
 
 # Pharos API
