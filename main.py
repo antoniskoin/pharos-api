@@ -3,7 +3,6 @@ from waitress import serve
 from scrapers.pharmacies import get_pharmacies_today, get_pharmacy_by_id, get_area_ids
 from scrapers.hospitals import get_hospital_by_id, get_hospital_ids
 
-
 app = Flask(__name__)
 
 
@@ -21,6 +20,10 @@ def pharmacies_today():
 @app.route("/pharmacies/area", methods=["GET"])
 def pharmacies_in_area():
     area_id = request.args.get("id", None)
+
+    if not area_id:
+        return {"success": False, "message": "No area id provided"}
+
     data = get_pharmacy_by_id(area_id)
     return data
 
@@ -34,6 +37,9 @@ def pharmacies_area_ids():
 @app.route("/hospitals/area", methods=["GET"])
 def hospitals_today():
     hospital_location = request.args.get("location", None)
+
+    if not hospital_location:
+        return {"success": False, "message": "No location provided"}
 
     data = get_hospital_by_id(hospital_location)
     return data
