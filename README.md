@@ -9,12 +9,16 @@
 
 #### An API that retrieves and returns data about pharmacies and hospitals that are on duty in the Attica area.
 
+## Supported Districts
+- Athens
+- Patra
+
 ## Endpoints
 
 ```text
-/pharmacies/today [GET]
+/pharmacies/today/<district> [GET]
 ```
-Returns all pharmacies that are on duty in the Attica area.
+Returns all pharmacies that are on duty in the specified district [Athens, Patra].
 
 ```text
 /pharmacies/area [GET]
