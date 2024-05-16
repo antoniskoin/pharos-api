@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from waitress import serve
-from scrapers.pharmacies import get_pharmacies_today, get_pharmacy_by_id, get_area_ids
+from scrapers.athens_pharmacies import get_pharmacies_today, get_pharmacy_by_id, get_area_ids
+from scrapers.patra_pharmacies import get_patra_pharmacies_today
 from scrapers.hospitals import get_hospital_by_id, get_hospital_ids
 
 app = Flask(__name__)
@@ -11,9 +12,15 @@ def home():
     return render_template("index.html")
 
 
-@app.route("/pharmacies/today", methods=["GET"])
-def pharmacies_today():
-    data = get_pharmacies_today()
+@app.route("/pharmacies/today/<district>", methods=["GET"])
+def pharmacies_today(district: str):
+    if district.lower() == "athens":
+        data = get_pharmacies_today()
+    elif district.lower() == "patra":
+        data = get_patra_pharmacies_today()
+    else:
+        return {"error": "invalid district"}
+
     return data
 
 

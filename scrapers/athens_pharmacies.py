@@ -2,7 +2,6 @@ import requests
 import datetime
 
 from bs4 import BeautifulSoup
-from flask import request
 from requests import Session
 
 from helpers.common import get_headers
