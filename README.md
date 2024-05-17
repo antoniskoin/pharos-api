@@ -7,18 +7,19 @@
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 ![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
 
-#### An API that retrieves and returns data about pharmacies and hospitals that are on duty in the Attica area.
+#### An API that retrieves and returns data about pharmacies and hospitals that are on call in Greece.
 
 ## Supported Districts
 - Athens
 - Patra
+- Crete
 
 ## Endpoints
 
 ```text
 /pharmacies/today/<district> [GET]
 ```
-Returns all pharmacies that are on duty in the specified district [Athens, Patra].
+Returns all pharmacies that are on duty in the specified district [Athens, Patra, Crete].
 
 ```text
 /pharmacies/area [GET]
