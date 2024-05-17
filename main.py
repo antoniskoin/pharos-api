@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request
 from waitress import serve
-from scrapers.athens_pharmacies import get_pharmacies_today, get_pharmacy_by_id, get_area_ids
-from scrapers.patra_pharmacies import get_patra_pharmacies_today
+from scrapers.athens import get_pharmacies_today, get_pharmacy_by_id, get_area_ids
+from scrapers.patra import get_patra_pharmacies_today
+from scrapers.crete import get_crete_pharmacies_today
 from scrapers.hospitals import get_hospital_by_id, get_hospital_ids
 
 app = Flask(__name__)
@@ -18,6 +19,8 @@ def pharmacies_today(district: str):
         data = get_pharmacies_today()
     elif district.lower() == "patra":
         data = get_patra_pharmacies_today()
+    elif district.lower() == "crete":
+        data = get_crete_pharmacies_today()
     else:
         return {"error": "invalid district"}
 
